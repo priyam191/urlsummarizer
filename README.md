@@ -1,70 +1,208 @@
-# Getting Started with Create React App
+# URL Summary Generator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern React web application that uses AI to generate concise summaries of website content. Simply enter a URL, and the application will provide you with a 3-5 sentence summary powered by OpenAI's GPT-4o-mini model.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+-  **URL Summarization**: Generate quick summaries of any website URL
+-  **AI-Powered**: Uses OpenAI's GPT-4o-mini for intelligent content summarization
+-  **Real-time Processing**: Instant feedback with loading states
+-  **Modern UI**: Clean, responsive design with smooth animations
+-  **Error Handling**: Comprehensive error handling for invalid URLs and API errors
+-  **Loading States**: Visual feedback during API requests
 
-### `npm start`
+## How AI is Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project leverages **OpenAI's GPT-4o-mini model** through the OpenAI Chat Completions API to generate summaries:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. **API Integration**: The application makes POST requests to `https://api.openai.com/v1/chat/completions`
+2. **AI Model**: Uses `gpt-4o-mini` - a cost-effective and efficient model perfect for summarization tasks
+3. **Prompt Engineering**: The AI receives a structured prompt asking it to "Summarize the content from this URL in 3-5 sentences"
+4. **Response Processing**: The AI-generated summary is extracted from the API response and displayed to the user
+5. **Token Limit**: Configured with a `max_tokens` of 150 to ensure concise, focused summaries
 
-### `npm test`
+### AI Flow
+```
+User Input (URL) → Validation → OpenAI API Request → GPT-4o-mini Processing → Summary Display
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+Before you begin, ensure you have the following installed:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Node.js** (v14 or higher recommended)
+- **npm** (v6 or higher) or **yarn**
+- **OpenAI API Key** ([Get one here](https://platform.openai.com/api-keys))
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Setup Steps
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 1. Clone the Repository
 
-### `npm run eject`
+```bash
+git clone <your-repo-url>
+cd urlsummary
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. Install Dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This will install all required packages including:
+- React 19.2.3
+- React Router DOM 7.12.0
+- Axios 1.13.2
+- React Scripts 5.0.1
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. Configure Environment Variables
 
-## Learn More
+Create a `.env` file in the root directory of the project:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+# Windows
+type nul > .env
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# macOS/Linux
+touch .env
+```
 
-### Code Splitting
+Add your OpenAI API key to the `.env` file:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```env
+REACT_APP_OPENAI_API_KEY=your_openai_api_key_here
+```
 
-### Analyzing the Bundle Size
+**Important Notes:**
+- Replace `your_openai_api_key_here` with your actual OpenAI API key
+- The `.env` file should be in the root directory (same level as `package.json`)
+- Never commit the `.env` file to version control (it should already be in `.gitignore`)
+- The `REACT_APP_` prefix is required for Create React App to expose the variable
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 4. Start the Development Server
 
-### Making a Progressive Web App
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The application will open in your browser at [http://localhost:3000](http://localhost:3000).
 
-### Advanced Configuration
+The page will automatically reload when you make changes to the code.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 5. Build for Production (Optional)
 
-### Deployment
+To create an optimized production build:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm run build
+```
 
-### `npm run build` fails to minify
+This creates a `build` folder with optimized files ready for deployment.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Project Structure
+
+```
+urlsummary/
+├── public/
+│   ├── index.html
+│   ├── manifest.json
+│   └── ...
+├── src/
+│   ├── api/
+│   │   └── ChatApi.js          # OpenAI API integration
+│   ├── components/
+│   │   ├── SearchBar.js        # URL input form component
+│   │   ├── TextBox.js          # Summary display component
+│   │   └── Loader.js           # Loading spinner component
+│   ├── hooks/
+│   │   └── ChatHook.js         # Custom hook for API logic and state management
+│   ├── pages/
+│   │   └── Home.js             # Main page component
+│   ├── styles/
+│   │   └── style.css           # Application styles
+│   ├── App.js                  # Root component with routing
+│   └── index.js                # Application entry point
+├── .env                        # Environment variables (create this)
+├── package.json
+└── README.md
+```
+
+## Usage
+
+1. **Start the Application**: Run `npm start` and navigate to `http://localhost:3000`
+
+2. **Enter a URL**: In the search bar, enter any valid website URL (e.g., `https://example.com`)
+
+3. **Get Summary**: Click the "Search" button to generate a summary
+
+4. **View Results**: The AI-generated summary will appear below the search form in a styled container
+
+5. **Error Handling**: If an invalid URL is entered or an error occurs, an error message will be displayed
+
+## Technologies Used
+
+- **React 19.2.3**: Frontend library for building user interfaces
+- **React Router DOM 7.12.0**: Client-side routing
+- **Axios 1.13.2**: HTTP client for API requests
+- **OpenAI GPT-4o-mini**: AI model for content summarization
+- **CSS3**: Modern styling with flexbox and animations
+
+## API Configuration
+
+The application uses OpenAI's Chat Completions API with the following configuration:
+
+- **Endpoint**: `https://api.openai.com/v1/chat/completions`
+- **Model**: `gpt-4o-mini`
+- **Max Tokens**: 150
+- **Authentication**: Bearer token via `REACT_APP_OPENAI_API_KEY`
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Please enter a valid URL" Error**
+   - Ensure the URL includes the protocol (http:// or https://)
+   - Check that the URL is properly formatted
+
+2. **"Something went wrong" Error**
+   - Verify your OpenAI API key is correctly set in the `.env` file
+   - Ensure you have available API credits
+   - Check your internet connection
+
+3. **Environment Variable Not Working**
+   - Restart the development server after creating/modifying `.env`
+   - Ensure the variable name starts with `REACT_APP_`
+   - Check that `.env` is in the root directory
+
+4. **Port Already in Use**
+   - The default port is 3000. If occupied, React will prompt to use another port
+   - Alternatively, set `PORT=3001` in your `.env` file
+
+## Security Notes
+
+- **API Key Security**: Never commit your `.env` file or expose your API key in client-side code
+- **CORS**: This application makes direct API calls from the browser. For production, consider using a backend proxy
+- **Rate Limiting**: Be aware of OpenAI's rate limits to avoid excessive API usage
+
+## Future Enhancements
+
+Potential improvements for the project:
+
+- Backend proxy for API calls (enhanced security)
+- URL content fetching and parsing before AI summarization
+- Multiple summary length options
+- History of previous summaries
+- Export summaries as text files
+- Support for multiple languages
+
+## License
+
+This project is private and not licensed for distribution.
+
+## Contributing
+
+This is a private project. Contributions are not currently accepted.
+
+---
+
+**Note**: Make sure you have a valid OpenAI API key with available credits to use this application. API usage will incur costs based on OpenAI's pricing structure.

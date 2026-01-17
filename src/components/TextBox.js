@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TextBox = ({summary, loading, error}) => {
+const TextBox = ({summary, error}) => {
   if (!error && !summary) return null;
   
   return (
